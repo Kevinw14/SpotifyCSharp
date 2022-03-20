@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SpotifyCSharp": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SPOTIFY_CLIENT_ID": "d98e5edae1ba4a8289e1304e4fc9f320"
+      }
+    }
+  }
+}

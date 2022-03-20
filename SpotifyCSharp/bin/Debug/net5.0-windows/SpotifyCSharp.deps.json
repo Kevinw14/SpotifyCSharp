@@ -6,6 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
+      "SpotifyCSharp/1.0.0": {
+        "dependencies": {
+          "SpotifyAPI.Web": "6.2.2",
+          "SpotifyAPI.Web.Auth": "6.2.2"
+        },
+        "runtime": {
+          "SpotifyCSharp.dll": {}
+        }
+      },
       "EmbedIO/3.4.3": {
         "dependencies": {
           "Unosquare.Swan.Lite": "3.0.0"
@@ -59,6 +68,11 @@
     }
   },
   "libraries": {
+    "SpotifyCSharp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "EmbedIO/3.4.3": {
       "type": "package",
       "serviceable": true,
