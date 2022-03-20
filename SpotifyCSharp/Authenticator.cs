@@ -12,7 +12,8 @@ namespace SpotifyCSharp
 
     interface AuthenticatorDelegate
     {
-        void DidFinishAuthenticating(SpotifyClient Client);
+        void AuthenticatorDidFinishAuthenticating(SpotifyClient Client);
+        void AuthenticatorDidFinishLoggingOut();
     }
 
     class Authenticator
@@ -72,7 +73,7 @@ namespace SpotifyCSharp
 
                 await File.WriteAllTextAsync(credentials_path, JsonConvert.SerializeObject(token));
                 SpotifyClient client = await Start();
-                del.DidFinishAuthenticating(client);
+                del.AuthenticatorDidFinishAuthenticating(client);
             };
 
             var request = new LoginRequest(server.BaseUri, client_id, LoginRequest.ResponseType.Code)

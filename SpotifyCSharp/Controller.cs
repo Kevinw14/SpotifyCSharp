@@ -1,5 +1,4 @@
 ﻿using SpotifyAPI.Web;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SpotifyCSharp
@@ -8,7 +7,7 @@ namespace SpotifyCSharp
     {
 
         private Authenticator Auth;
-        private SpotifyClient Client;
+        private SpotifyClient? Client;
 
         public Controller()
         {
@@ -21,11 +20,16 @@ namespace SpotifyCSharp
             await Auth.login();
         }
 
-        public async void DidFinishAuthenticating(SpotifyClient Client)
+        public async void AuthenticatorDidFinishAuthenticating(SpotifyClient Client)
         {
             this.Client = Client;
             PrivateUser me = await Client.UserProfile.Current();
             MessageBox.Show(me.DisplayName);
+        }
+
+        public void AuthenticatorDidFinishLoggingOut()
+        {
+
         }
     }
 
