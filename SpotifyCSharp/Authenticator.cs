@@ -67,11 +67,10 @@ namespace SpotifyCSharp
             server.AuthorizationCodeReceived += async (sender, response) =>
             {
                 await server.Stop();
-                PKCETokenResponse token = await new OAuthClient().RequestToken(
-                  new PKCETokenRequest(client_id, response.Code, server.BaseUri, verifier)
-                );
+                PKCETokenResponse token = await new OAuthClient().RequestToken(new PKCETokenRequest(client_id, response.Code, server.BaseUri, verifier));
 
                 await File.WriteAllTextAsync(credentials_path, JsonConvert.SerializeObject(token));
+
                 SpotifyClient client = await Start();
                 del.AuthenticatorDidFinishAuthenticating(client);
             };
@@ -104,7 +103,8 @@ namespace SpotifyCSharp
 
             if (File.Exists(credentials_path))
             {
-                await Start();
+                SpotifyClient client = await Start();
+                del.AuthenticatorDidFinishAuthenticating(client);
             }
             else
             {
