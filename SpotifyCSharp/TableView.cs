@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Drawing;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SpotifyCSharp
@@ -8,6 +9,7 @@ namespace SpotifyCSharp
     {
         public double HeightForRow(TableView TableView, IndexPath IndexPath);
         public double SpaceBetweenRows(TableView TableView, IndexPath IndexPath);
+        public bool IsRowEnabled(TableView TableView, IndexPath IndexPath);
     }
 
     public interface TableViewDatasource
@@ -46,6 +48,12 @@ namespace SpotifyCSharp
             }
         }
 
+        public TableView()
+        {
+            VerticalAlignment = VerticalAlignment.Top;
+            Height = 619;
+            Width = 813;
+        }
         public void Refresh()
         {
             Start();
@@ -54,15 +62,27 @@ namespace SpotifyCSharp
 
         private void Start()
         {
+            Grid Grid = (Grid)this.FindName("TableViewGrid");
             int Sections = Datasource.NumberOfSections(this);
 
+            double TopMargin = 0;
             for (int i = 0; i < Sections; i++)
             {
                 int Rows = Datasource.NumberOfRowsInSection(this, i);
                 for (int j = 0; j < Rows; j++)
                 {
                     IndexPath IndexPath = new IndexPath(i, j);
+                    bool IsEnabled = Delegate.IsRowEnabled(this, IndexPath);
+                    double Height = Delegate.HeightForRow(this, IndexPath);
+                    double Spacing = Delegate.SpaceBetweenRows(this, IndexPath);
+
                     TableViewCell Cell = Datasource.CellForRow(this, IndexPath);
+                    Cell.VerticalAlignment = VerticalAlignment.Top;
+                    Cell.Height = Height;
+                    Cell.IsEnabled = IsEnabled;
+                    Cell.Margin = new Thickness(0, TopMargin, 0, 0);
+                    TopMargin += Cell.Height + Spacing;
+                    Grid.Children.Add(Cell);
                 }
             }
         }

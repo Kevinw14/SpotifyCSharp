@@ -8,12 +8,11 @@ namespace SpotifyCSharp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, AuthenticatorDelegate, TableViewDatasource
+    public partial class MainWindow : Window, AuthenticatorDelegate, TableViewDatasource, TableViewDelegate
     {
 
         private Authenticator Auth;
         private SpotifyClient? Client;
-        private List<Section> Items;
         private Response Response;
 
     public MainWindow()
@@ -22,7 +21,7 @@ namespace SpotifyCSharp
             Auth = new Authenticator("http://localhost:5000/callback", 5000);
             Auth.Delegate = this;
             MainTableView.Datasource = this;
-            Items = new List<Section>();
+            MainTableView.Delegate = this;
             Start();
             Search();
         }
@@ -90,35 +89,50 @@ namespace SpotifyCSharp
             {
                 case 0:
                     TableViewCell SongCell = new TableViewCell();
-                    List<FullTrack> Songs = Response.Songs;
+                    List <FullTrack> Songs = Response.Songs;
                     FullTrack Song = Songs[IndexPath.Row];
-                    MessageBox.Show($"Song: {Song.Name}");
+                    SongCell.Content = Song.Name;
                     return SongCell;
 
                 case 1:
                     TableViewCell AlbumCell = new TableViewCell();
                     List<SimpleAlbum> Albums = Response.Albums;
                     SimpleAlbum Album = Albums[IndexPath.Row];
-                    MessageBox.Show(Album.Name);
+                    AlbumCell.Content = Album.Name;
                     return AlbumCell;
 
                 case 2:
                     TableViewCell ArtistCell = new TableViewCell();
                     List<FullArtist> Artists = Response.Artists;
                     FullArtist Artist = Artists[IndexPath.Row];
-                    MessageBox.Show(Artist.Name);
+                    ArtistCell.Content = Artist.Name;
                     return ArtistCell;
 
                 case 3:
                     TableViewCell PlaylistCell = new TableViewCell();
                     List<SimplePlaylist> Playlists = Response.Playlists;
                     SimplePlaylist Playlist = Playlists[IndexPath.Row];
-                    MessageBox.Show(Playlist.Name);
+                    PlaylistCell.Content = Playlist.Name;
                     return PlaylistCell;
 
                 default:
                     return new TableViewCell();
             }
+        }
+
+        public bool IsRowEnabled(TableView TableView, IndexPath IndexPath)
+        {
+            return false;
+        }
+
+        public double HeightForRow(TableView TableView, IndexPath IndexPath)
+        {
+            return 70;
+        }
+
+        public double SpaceBetweenRows(TableView TableView, IndexPath IndexPath)
+        {
+            return 20;
         }
     }
 }

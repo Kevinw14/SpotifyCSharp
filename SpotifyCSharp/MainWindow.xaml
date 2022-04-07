@@ -5,13 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpotifyCSharp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1050"
+        Title="MainWindow" Height="700" Width="1250"
         MinHeight="650" MinWidth="950">
     <Grid>
-        <local:TableView x:Name="MainTableView" Margin="123,22,59,67">
-            <Grid>
-                <Rectangle HorizontalAlignment="Center" Height="100" Margin="0,20,0,0" Stroke="Black" VerticalAlignment="Top" Width="771"/>
-            </Grid>
+        <local:TableView x:Name="MainTableView" Margin="177,22,60,59">
+            <Grid x:Name="TableViewGrid"></Grid>
         </local:TableView>
 
     </Grid>
