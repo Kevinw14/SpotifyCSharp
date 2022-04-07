@@ -5,7 +5,6 @@ C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\bin\Debug\net5.0-windows
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\bin\Debug\net5.0-windows\SpotifyCSharp.dll
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\bin\Debug\net5.0-windows\ref\SpotifyCSharp.dll
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\bin\Debug\net5.0-windows\SpotifyCSharp.pdb
-C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SpotifyCSharp.csproj.AssemblyReference.cache
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\MainWindow.g.cs
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\App.g.cs
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SpotifyCSharp_MarkupCompile.cache
@@ -26,3 +25,5 @@ C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\bin\Debug\net5.0-windows
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\bin\Debug\net5.0-windows\SpotifyAPI.Web.Auth.dll
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\bin\Debug\net5.0-windows\Swan.Lite.dll
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SpotifyCSharp.csproj.CopyComplete
+C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SpotifyCSharp.csproj.AssemblyReference.cache
