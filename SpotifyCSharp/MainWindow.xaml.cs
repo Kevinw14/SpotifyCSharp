@@ -91,7 +91,9 @@ namespace SpotifyCSharp
                 case 0:
                     List <FullTrack> Songs = Response.Songs;
                     FullTrack Song = Songs[IndexPath.Row];
-                    SongTableViewCell SongCell = new SongTableViewCell(Song);
+                    SongTableViewCell SongCell = new SongTableViewCell();
+                    SongCell.NameLabel.Content = Song.Name;
+                    SongCell.AlbumArtworkURL = Song.Album.Images[0].Url;
                     return SongCell;
 
                 case 1:
