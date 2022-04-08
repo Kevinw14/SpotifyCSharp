@@ -8,7 +8,7 @@ namespace SpotifyCSharp
 
         public TableViewCell()
         {
-            Width = 700;
+            Width = 100;
         }
     }
 }

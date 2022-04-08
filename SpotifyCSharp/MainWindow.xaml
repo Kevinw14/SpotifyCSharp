@@ -5,12 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpotifyCSharp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1250"
-        MinHeight="650" MinWidth="950">
-    <Grid>
-        <local:TableView x:Name="MainTableView" Margin="177,22,60,59">
-            <Grid x:Name="TableViewGrid"></Grid>
-        </local:TableView>
-
-    </Grid>
+        Title="MainWindow" Height="720" Width="1250"
+        MinHeight="720" MinWidth="1250">
+    <TabControl>
+        <TabItem Header="Search">
+            <Grid Margin="0,30,0,0">
+                <local:TableView HorizontalAlignment="Center" x:Name="MainTableView" Margin="0,-16,0,0" Width="1174">
+                    <Grid x:Name="TableViewGrid">
+                    </Grid>
+                </local:TableView>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Login">
+        </TabItem>
+    </TabControl>
 </Window>

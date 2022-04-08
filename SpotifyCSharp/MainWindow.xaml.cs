@@ -2,6 +2,7 @@
 using System.Windows;
 using System;
 using System.Collections.Generic;
+using System.Windows.Media.Imaging;
 
 namespace SpotifyCSharp
 {
@@ -12,7 +13,7 @@ namespace SpotifyCSharp
     {
 
         private Authenticator Auth;
-        private SpotifyClient? Client;
+        private SpotifyClient Client;
         private Response Response;
 
     public MainWindow()
@@ -88,10 +89,9 @@ namespace SpotifyCSharp
             switch (IndexPath.Section)
             {
                 case 0:
-                    TableViewCell SongCell = new TableViewCell();
                     List <FullTrack> Songs = Response.Songs;
                     FullTrack Song = Songs[IndexPath.Row];
-                    SongCell.Content = Song.Name;
+                    SongTableViewCell SongCell = new SongTableViewCell(Song);
                     return SongCell;
 
                 case 1:
@@ -130,9 +130,9 @@ namespace SpotifyCSharp
             return 70;
         }
 
-        public double SpaceBetweenRows(TableView TableView, IndexPath IndexPath)
+        public double SpaceBetweenRows(TableView TableView, int Section)
         {
-            return 20;
+            return 10;
         }
     }
 }
