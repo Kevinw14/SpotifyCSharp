@@ -16,8 +16,8 @@ namespace SpotifyCSharp
         private System.Windows.Controls.Image album_image;
         private string album_artwork_url;
         private Grid grid;
-        private SongTableViewCellDelegate delgte;
-        public SongTableViewCellDelegate Delegate
+        private TableViewCellDelegate delgte;
+        public TableViewCellDelegate Delegate
         {
             get
             {

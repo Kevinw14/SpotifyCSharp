@@ -3,6 +3,10 @@ using System.Windows.Controls;
 
 namespace SpotifyCSharp
 {
+    public interface TableViewCellDelegate
+    {
+        public void TableViewCellPressed(TableViewCell TableViewCell);
+    }
     public class TableViewCell: Button
     {
 
