@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SpotifyCSharp
+﻿namespace SpotifyCSharp
 {
+
+    // Used to help us find which items in the array was interacted with on the UI.
     public class IndexPath
     {
         private int section;

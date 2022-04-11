@@ -75,11 +75,27 @@ namespace SpotifyCSharp
                 del.AuthenticatorDidFinishAuthenticating(client);
             };
 
-            var request = new LoginRequest(server.BaseUri, client_id, LoginRequest.ResponseType.Code)
+            LoginRequest request = new LoginRequest(server.BaseUri, client_id, LoginRequest.ResponseType.Code)
             {
                 CodeChallenge = challenge,
                 CodeChallengeMethod = "S256",
-                Scope = new List<string> { UserReadEmail, UserReadPrivate, PlaylistReadPrivate, PlaylistReadCollaborative }
+                Scope = new List<string> {
+                    UserReadPlaybackState,
+                    UserModifyPlaybackState,
+                    UserReadCurrentlyPlaying,
+                    Streaming,
+                    UserReadEmail,
+                    UserReadPrivate,
+                    PlaylistReadCollaborative,
+                    PlaylistModifyPublic,
+                    PlaylistReadPrivate,
+                    PlaylistModifyPrivate,
+                    UserLibraryModify,
+                    UserLibraryRead,
+                    UserTopRead,
+                    UserReadPlaybackPosition,
+                    UserReadRecentlyPlayed,
+                }
             };
 
             Uri uri = request.ToUri();

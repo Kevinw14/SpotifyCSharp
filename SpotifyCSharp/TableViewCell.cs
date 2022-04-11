@@ -1,18 +1,26 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace SpotifyCSharp
 {
-    public interface TableViewCellDelegate
-    {
-        public void TableViewCellPressed(TableViewCell TableViewCell);
-    }
-    public class TableViewCell: Button
+
+    // Blueprint of a table view cell used to populate the tableview
+    public class TableViewCell: UserControl
     {
 
-        public TableViewCell()
+        private IndexPath index_path;
+
+        // Stores the indexpath to better help determining which item in the array we need to get when
+        // a tableviewcell is interacted with.
+        public IndexPath IndexPath
         {
-            Width = 100;
+            get
+            {
+                return index_path;
+            }
+        }
+        public TableViewCell(IndexPath index_path)
+        {
+            this.index_path = index_path;
         }
     }
 }

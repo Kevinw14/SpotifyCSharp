@@ -3,33 +3,49 @@ using System.Windows;
 using System;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace SpotifyCSharp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, AuthenticatorDelegate, TableViewDatasource, TableViewDelegate
+    public partial class MainWindow : Window, AuthenticatorDelegate
     {
 
         private Authenticator Auth;
-        private SpotifyClient Client;
-        private Response Response;
-
-    public MainWindow()
+        //Used to control the playback of songs requested.
+        private IPlayerClient Player;
+        // Spotify Client. When this is set, we also set the Player object
+        private SpotifyClient Client
+        {
+            get
+            {
+                return Client;
+            }
+            set
+            {
+                Client = value;
+                Player = Client.Player;
+            }
+        }
+        public MainWindow()
         {
             InitializeComponent();
             Auth = new Authenticator("http://localhost:5000/callback", 5000);
             Auth.Delegate = this;
-            MainTableView.Datasource = this;
-            MainTableView.Delegate = this;
-            Start();
-            Search();
         }
 
+        // Searches everything. We will have to change this later since were only search one category at a time.
+        // I think each page (Song, Album, Artist, Podcast) will have their own search function. So this will be moved.
+        // For right now it is good to get at least one song to try to play.
         public async void Search()
         {
+            // Searches every category for Metallica. Limits the amount of results back to 7.
             SearchRequest SpotifyRequest = new SearchRequest(SearchRequest.Types.All, "Metallica");
+            SpotifyRequest.Limit = 7;
+
+            // The Response back from spotify. Has Songs, Albums, Artists that best match the search query.
             SearchResponse SpotifyResponse = await Client.Search.Item(SpotifyRequest);
 
             Paging<FullTrack, SearchResponse> Songs = SpotifyResponse.Tracks;
@@ -37,20 +53,58 @@ namespace SpotifyCSharp
             Paging<FullArtist, SearchResponse> Artists = SpotifyResponse.Artists;
             Paging<SimplePlaylist, SearchResponse> Playlists = SpotifyResponse.Playlists;
 
-            Response = new Response(Songs.Items, Albums.Items, Artists.Items, Playlists.Items);
+            // I created a Response object to encapsulate all the categories. After new redesign this will probably cease to exist.
+            Response Response = new Response(Songs.Items, Albums.Items, Artists.Items, Playlists.Items);
 
-            MainTableView.Refresh();
-        }
-        public async void Start()
-        {
-            await Auth.login();
+
+
+            // This attempts to play the first song. It needs a active device and I don't know how to get this desktop to be
+            // the active device. Earlier when it played, your phone was the active device. It chose that device to play the song.
+
+                //PlayerResumePlaybackRequest PlayRequest = new PlayerResumePlaybackRequest();
+            
+            // Create a List to hold the Uri's of songs.
+                //List<string> S = new List<string>();
+                //S.Add(Songs.Items[0].Uri);
+
+            //Give the PlayRequest the Uri's
+                //PlayRequest.Uris = S;
+
+            //Play
+             //await Player.ResumePlayback(PlayRequest);
         }
 
-        public void AuthenticatorDidFinishAuthenticating(SpotifyClient Client)
+        // Delegate method called when user successfully logs into their account.
+        public async void AuthenticatorDidFinishAuthenticating(SpotifyClient Client)
         {
             try
             {
+                // Set the client to use other functionality of spotify
                 this.Client = Client;
+
+                // Get the current users information
+                PrivateUser User = await Client.UserProfile.Current();
+
+                // Login button becomes hidden. I think there is an error thrown here when you log in for the first time.
+                // Rerun it again and it should be fine.
+                LoginButton.Visibility = Visibility.Hidden;
+
+
+                // Profile image and name label becomes visible
+                ProfileImage.Visibility = Visibility.Visible;
+                NameLabel.Visibility = Visibility.Visible;
+
+                // Check to see if the user has a profile image
+                if (User.Images.Count > 0)
+                {
+                    ProfileImage.Source = GetImage(User.Images[0].Url);
+                }
+
+                // Set the NameLabel the value of their display name.
+                NameLabel.Text = User.DisplayName;
+
+                // Search is called here so it doesn't throw an error. We have to be authenticated and Client has to be set.
+                Search();
             }
             catch (APIException e)
             {
@@ -58,83 +112,27 @@ namespace SpotifyCSharp
             }
         }
 
+
+        // Helper method that returns an BitmapImage from a URL. 
+        private BitmapImage GetImage(string URL)
+        {
+            BitmapImage Bitmap = new BitmapImage();
+            Bitmap.BeginInit();
+            Bitmap.UriSource = new Uri(URL);
+            Bitmap.EndInit();
+            return Bitmap;
+        }
+
+        // Handle logging the user out (Deleting the credentials file) and updating the UI.
         public void AuthenticatorDidFinishLoggingOut()
         {
 
         }
 
-        public int NumberOfSections(TableView TableView)
+        // Called when the login button is clicked to open the web browser if they haven't authenticated before.
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            return 4;
-        }
-        public int NumberOfRowsInSection(TableView TableView, int Section)
-        {
-            switch (Section) {
-                case 0:
-                    return Response.Songs.Count;
-                case 1:
-                    return Response.Albums.Count;
-                case 2:
-                    return Response.Artists.Count;
-                case 3:
-                    return Response.Playlists.Count;
-                default:
-                    return 0;
-            }
-        }
-
-        public TableViewCell CellForRow(TableView TableView, IndexPath IndexPath)
-        {
-
-            switch (IndexPath.Section)
-            {
-                case 0:
-                    List <FullTrack> Songs = Response.Songs;
-                    FullTrack Song = Songs[IndexPath.Row];
-                    SongTableViewCell SongCell = new SongTableViewCell();
-                    SongCell.NameLabel.Content = Song.Name;
-                    SongCell.AlbumArtworkURL = Song.Album.Images[0].Url;
-                    return SongCell;
-
-                case 1:
-                    TableViewCell AlbumCell = new TableViewCell();
-                    List<SimpleAlbum> Albums = Response.Albums;
-                    SimpleAlbum Album = Albums[IndexPath.Row];
-                    AlbumCell.Content = Album.Name;
-                    return AlbumCell;
-
-                case 2:
-                    TableViewCell ArtistCell = new TableViewCell();
-                    List<FullArtist> Artists = Response.Artists;
-                    FullArtist Artist = Artists[IndexPath.Row];
-                    ArtistCell.Content = Artist.Name;
-                    return ArtistCell;
-
-                case 3:
-                    TableViewCell PlaylistCell = new TableViewCell();
-                    List<SimplePlaylist> Playlists = Response.Playlists;
-                    SimplePlaylist Playlist = Playlists[IndexPath.Row];
-                    PlaylistCell.Content = Playlist.Name;
-                    return PlaylistCell;
-
-                default:
-                    return new TableViewCell();
-            }
-        }
-
-        public bool IsRowEnabled(TableView TableView, IndexPath IndexPath)
-        {
-            return false;
-        }
-
-        public double HeightForRow(TableView TableView, IndexPath IndexPath)
-        {
-            return 70;
-        }
-
-        public double SpaceBetweenRows(TableView TableView, int Section)
-        {
-            return 10;
+            await Auth.login();
         }
     }
 }
