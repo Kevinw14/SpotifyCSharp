@@ -16,19 +16,9 @@ namespace SpotifyCSharp
         private Authenticator Auth;
         //Used to control the playback of songs requested.
         private IPlayerClient Player;
-        // Spotify Client. When this is set, we also set the Player object
-        private SpotifyClient Client
-        {
-            get
-            {
-                return Client;
-            }
-            set
-            {
-                Client = value;
-                Player = Client.Player;
-            }
-        }
+        // Spotify Client.
+        private SpotifyClient Client;
+        private FullTrack Song;
         public MainWindow()
         {
             InitializeComponent();
@@ -55,23 +45,6 @@ namespace SpotifyCSharp
 
             // I created a Response object to encapsulate all the categories. After new redesign this will probably cease to exist.
             Response Response = new Response(Songs.Items, Albums.Items, Artists.Items, Playlists.Items);
-
-
-
-            // This attempts to play the first song. It needs a active device and I don't know how to get this desktop to be
-            // the active device. Earlier when it played, your phone was the active device. It chose that device to play the song.
-
-                //PlayerResumePlaybackRequest PlayRequest = new PlayerResumePlaybackRequest();
-            
-            // Create a List to hold the Uri's of songs.
-                //List<string> S = new List<string>();
-                //S.Add(Songs.Items[0].Uri);
-
-            //Give the PlayRequest the Uri's
-                //PlayRequest.Uris = S;
-
-            //Play
-             //await Player.ResumePlayback(PlayRequest);
         }
 
         // Delegate method called when user successfully logs into their account.
@@ -81,8 +54,29 @@ namespace SpotifyCSharp
             {
                 // Set the client to use other functionality of spotify
                 this.Client = Client;
+                Player = Client.Player;
 
-                // Get the current users information
+                // Search is called here so it doesn't throw an error. We have to be authenticated and Client has to be set.
+                Search();
+
+                DeviceResponse DeviceResponse = await Client.Player.GetAvailableDevices();
+                List<Device> Devices = DeviceResponse.Devices;
+
+                //This attempts to play the first song. It needs a active device and I don't know how to get this desktop to be
+                //the active device. Earlier when it played, your phone was the active device. It chose that device to play the song.
+
+                PlayerResumePlaybackRequest PlayRequest = new PlayerResumePlaybackRequest();
+                // Sets the first available device to play.
+                PlayRequest.DeviceId = Devices[0].Id;
+                // Create a List to hold the Uri's of songs.
+                // One by Metallica
+                List<string> S = new List<string> { "spotify:track:64Ret7Tf2M8pDE4aqbW2tX" };
+
+                //Give the PlayRequest the Uri's
+                PlayRequest.Uris = S;
+
+                //Play
+                await Player.ResumePlayback(PlayRequest);
                 PrivateUser User = await Client.UserProfile.Current();
 
                 // Login button becomes hidden. I think there is an error thrown here when you log in for the first time.
@@ -102,9 +96,6 @@ namespace SpotifyCSharp
 
                 // Set the NameLabel the value of their display name.
                 NameLabel.Text = User.DisplayName;
-
-                // Search is called here so it doesn't throw an error. We have to be authenticated and Client has to be set.
-                Search();
             }
             catch (APIException e)
             {
