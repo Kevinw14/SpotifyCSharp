@@ -10,6 +10,9 @@
     <Compile Update="AlbumTableViewCell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="SongPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="SongTableViewCell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -22,6 +25,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SongPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SongTableViewCell.xaml">

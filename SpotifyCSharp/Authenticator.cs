@@ -36,6 +36,13 @@ namespace SpotifyCSharp
             }
         }
 
+        public string CredentialPath
+        {
+            get
+            {
+                return credentials_path;
+            }
+        } 
         public Authenticator(string host, int port)
         {
             credentials_path = "credentials.json";
@@ -43,7 +50,7 @@ namespace SpotifyCSharp
             server = new EmbedIOAuthServer(new Uri(host), port);
         }
 
-        private async Task<SpotifyClient> Start()
+        public async Task Start()
         {
             var json = await File.ReadAllTextAsync(credentials_path);
             var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
@@ -55,11 +62,12 @@ namespace SpotifyCSharp
               .WithAuthenticator(authenticator);
 
             SpotifyClient client = new SpotifyClient(config);
+            del.AuthenticatorDidFinishAuthenticating(client);
             server.Dispose();
-            return client;
+
         }
 
-        private async Task StartAuthentication()
+        public async Task StartAuthentication()
         {
             var (verifier, challenge) = PKCEUtil.GenerateCodes();
             await server.Start();
@@ -71,7 +79,12 @@ namespace SpotifyCSharp
 
                 await File.WriteAllTextAsync(credentials_path, JsonConvert.SerializeObject(token));
 
-                SpotifyClient client = await Start();
+                var authenticator = new PKCEAuthenticator(client_id, token);
+                authenticator.TokenRefreshed += (sender, token) => File.WriteAllText(credentials_path, JsonConvert.SerializeObject(token));
+                var config = SpotifyClientConfig.CreateDefault()
+                .WithAuthenticator(authenticator);
+
+                SpotifyClient client = new SpotifyClient(config);
                 del.AuthenticatorDidFinishAuthenticating(client);
             };
 
@@ -107,24 +120,6 @@ namespace SpotifyCSharp
             catch (Exception)
             {
                 Console.WriteLine("Unable to open URL, manually open: {0}", uri);
-            }
-        }
-
-        public async Task login()
-        {
-            if (string.IsNullOrEmpty(client_id))
-            {
-                throw new NullReferenceException("Please set SPOTIFY_CLIENT_ID via environment variables before starting the program");
-            }
-
-            if (File.Exists(credentials_path))
-            {
-                SpotifyClient client = await Start();
-                del.AuthenticatorDidFinishAuthenticating(client);
-            }
-            else
-            {
-                await StartAuthentication();
             }
         }
 

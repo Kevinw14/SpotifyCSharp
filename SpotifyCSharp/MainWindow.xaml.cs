@@ -1,9 +1,10 @@
 ﻿using SpotifyAPI.Web;
 using System.Windows;
 using System;
-using System.Collections.Generic;
 using System.Windows.Media.Imaging;
-using System.Windows.Media;
+using System.Threading.Tasks;
+using System.IO;
+using System.Windows.Navigation;
 
 namespace SpotifyCSharp
 {
@@ -18,33 +19,59 @@ namespace SpotifyCSharp
         private IPlayerClient Player;
         // Spotify Client.
         private SpotifyClient Client;
-        private FullTrack Song;
+
+        private enum SearchType
+        {
+            Song,
+            Album,
+            Artist,
+            Episode
+        }
         public MainWindow()
         {
             InitializeComponent();
             Auth = new Authenticator("http://localhost:5000/callback", 5000);
             Auth.Delegate = this;
+            Start();
         }
 
+        private async void Start()
+        {
+            if (File.Exists(Auth.CredentialPath))
+            {
+                await Auth.Start();
+            }
+        }
         // Searches everything. We will have to change this later since were only search one category at a time.
         // I think each page (Song, Album, Artist, Podcast) will have their own search function. So this will be moved.
         // For right now it is good to get at least one song to try to play.
-        public async void Search()
+        private async Task Search(string request, SearchType type)
         {
+
+            switch (type) {
+                case SearchType.Song:
+                    SearchRequest SpotifySongRequest = new SearchRequest(SearchRequest.Types.Track, request);
+                    SpotifySongRequest.Limit = 10;
+                    SearchResponse Response = await Client.Search.Item(SpotifySongRequest);
+                    SongPage SongPage = new SongPage(Response);
+                    MainFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+                    MainFrame.Content = SongPage;
+                    break;
+                case SearchType.Album:
+                    SearchRequest SpotifyAlbumRequest = new SearchRequest(SearchRequest.Types.Album, request);
+                    SpotifyAlbumRequest.Limit = 10;
+                    break;
+                case SearchType.Artist:
+                    SearchRequest SpotifyArtistRequest = new SearchRequest(SearchRequest.Types.Artist, request);
+                    SpotifyArtistRequest.Limit = 10;
+                    break;
+                case SearchType.Episode:
+                    SearchRequest SpotifyEpisodeRequest = new SearchRequest(SearchRequest.Types.Episode, request);
+                    SpotifyEpisodeRequest.Limit = 10;
+                    break;
+            }
+
             // Searches every category for Metallica. Limits the amount of results back to 7.
-            SearchRequest SpotifyRequest = new SearchRequest(SearchRequest.Types.All, "Metallica");
-            SpotifyRequest.Limit = 7;
-
-            // The Response back from spotify. Has Songs, Albums, Artists that best match the search query.
-            SearchResponse SpotifyResponse = await Client.Search.Item(SpotifyRequest);
-
-            Paging<FullTrack, SearchResponse> Songs = SpotifyResponse.Tracks;
-            Paging<SimpleAlbum, SearchResponse> Albums = SpotifyResponse.Albums;
-            Paging<FullArtist, SearchResponse> Artists = SpotifyResponse.Artists;
-            Paging<SimplePlaylist, SearchResponse> Playlists = SpotifyResponse.Playlists;
-
-            // I created a Response object to encapsulate all the categories. After new redesign this will probably cease to exist.
-            Response Response = new Response(Songs.Items, Albums.Items, Artists.Items, Playlists.Items);
         }
 
         // Delegate method called when user successfully logs into their account.
@@ -55,47 +82,22 @@ namespace SpotifyCSharp
                 // Set the client to use other functionality of spotify
                 this.Client = Client;
                 Player = Client.Player;
-
-                // Search is called here so it doesn't throw an error. We have to be authenticated and Client has to be set.
-                Search();
-
-                DeviceResponse DeviceResponse = await Client.Player.GetAvailableDevices();
-                List<Device> Devices = DeviceResponse.Devices;
-
-                //This attempts to play the first song. It needs a active device and I don't know how to get this desktop to be
-                //the active device. Earlier when it played, your phone was the active device. It chose that device to play the song.
-
-                PlayerResumePlaybackRequest PlayRequest = new PlayerResumePlaybackRequest();
-                // Sets the first available device to play.
-                PlayRequest.DeviceId = Devices[0].Id;
-                // Create a List to hold the Uri's of songs.
-                // One by Metallica
-                List<string> S = new List<string> { "spotify:track:64Ret7Tf2M8pDE4aqbW2tX" };
-
-                //Give the PlayRequest the Uri's
-                PlayRequest.Uris = S;
-
-                //Play
-                await Player.ResumePlayback(PlayRequest);
                 PrivateUser User = await Client.UserProfile.Current();
 
                 // Login button becomes hidden. I think there is an error thrown here when you log in for the first time.
                 // Rerun it again and it should be fine.
                 LoginButton.Visibility = Visibility.Hidden;
-
+                LogoutButton.Visibility = Visibility.Visible;
 
                 // Profile image and name label becomes visible
                 ProfileImage.Visibility = Visibility.Visible;
-                NameLabel.Visibility = Visibility.Visible;
+                UserGroupBox.Header = User.DisplayName;
 
                 // Check to see if the user has a profile image
                 if (User.Images.Count > 0)
                 {
                     ProfileImage.Source = GetImage(User.Images[0].Url);
                 }
-
-                // Set the NameLabel the value of their display name.
-                NameLabel.Text = User.DisplayName;
             }
             catch (APIException e)
             {
@@ -123,7 +125,21 @@ namespace SpotifyCSharp
         // Called when the login button is clicked to open the web browser if they haven't authenticated before.
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            await Auth.login();
+            await Auth.StartAuthentication();
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string query = SearchTextField.Text;
+            if (SongRadioButton.IsChecked == true)
+            {
+                await Search(query, SearchType.Song);
+            }
         }
     }
 }

@@ -33,3 +33,5 @@ C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SpotifyCSharp.pdb
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SpotifyCSharp.genruntimeconfig.cache
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SpotifyCSharp.csproj.AssemblyReference.cache
+C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SongPage.g.cs
+C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SongPage.baml
