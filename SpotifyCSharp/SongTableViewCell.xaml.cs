@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SpotifyCSharp
 {
@@ -20,13 +9,50 @@ namespace SpotifyCSharp
     /// </summary>
     /// 
 
-
+    public interface SongTableViewCellDelegate
+    {
+        void PlayButtonTapped(IndexPath IndexPath, SongTableViewCell SongTableViewCell); 
+        void LikeButtonTapped(IndexPath IndexPath);
+    }
     // SongTableViewCell is used to visualize song objects.
     public partial class SongTableViewCell : TableViewCell
     {
+
+        private SongTableViewCellDelegate delgate;
+        public SongTableViewCellDelegate Delegate
+        {
+            get
+            {
+                return delgate;
+            }
+
+            set
+            {
+                delgate = value;
+            }
+        }
         public SongTableViewCell(IndexPath index_path):base(index_path)
         {
             InitializeComponent();
+        }
+
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            delgate.PlayButtonTapped(this.IndexPath, this);
+        }
+
+        private void LikeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            delgate.LikeButtonTapped(this.IndexPath);
+        }
+
+        private BitmapImage GetImage(string URL)
+        {
+            BitmapImage Bitmap = new BitmapImage();
+            Bitmap.BeginInit();
+            Bitmap.UriSource = new Uri(URL);
+            Bitmap.EndInit();
+            return Bitmap;
         }
     }
 }

@@ -71,7 +71,7 @@ namespace SpotifyCSharp
             // Ask for the number of sections needed (Defaults to 1).
             int Sections = datasource.NumberOfSections(this);
             // Varible to keep track how far we need to offset the next cell
-            double TopMargin = 0;
+            double TopMargin = 20;
             for (int i = 0; i < Sections; i++)
             {
 
@@ -97,7 +97,7 @@ namespace SpotifyCSharp
                     double Spacing = Delegate.SpaceBetweenRows(this, i);
 
                     // Set the margins for the cell.
-                    Cell.Margin = new Thickness(0, TopMargin, 0, 0);
+                    Cell.Margin = new Thickness(10, TopMargin, 0, 0);
 
                     // Add it to the tableview.
                     TableViewGrid.Children.Add(Cell);

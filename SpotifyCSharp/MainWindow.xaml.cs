@@ -5,6 +5,7 @@ using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Navigation;
+using System.Collections.Generic;
 
 namespace SpotifyCSharp
 {
@@ -14,11 +15,11 @@ namespace SpotifyCSharp
     public partial class MainWindow : Window, AuthenticatorDelegate
     {
 
-        private Authenticator Auth;
+        private Authenticator auth;
         //Used to control the playback of songs requested.
-        private IPlayerClient Player;
+        private IPlayerClient player;
         // Spotify Client.
-        private SpotifyClient Client;
+        private SpotifyClient client;
 
         private enum SearchType
         {
@@ -30,16 +31,16 @@ namespace SpotifyCSharp
         public MainWindow()
         {
             InitializeComponent();
-            Auth = new Authenticator("http://localhost:5000/callback", 5000);
-            Auth.Delegate = this;
+            auth = new Authenticator("http://localhost:5000/callback", 5000);
+            auth.Delegate = this;
             Start();
         }
 
         private async void Start()
         {
-            if (File.Exists(Auth.CredentialPath))
+            if (File.Exists(auth.CredentialPath))
             {
-                await Auth.Start();
+                await auth.Start();
             }
         }
         // Searches everything. We will have to change this later since were only search one category at a time.
@@ -52,8 +53,8 @@ namespace SpotifyCSharp
                 case SearchType.Song:
                     SearchRequest SpotifySongRequest = new SearchRequest(SearchRequest.Types.Track, request);
                     SpotifySongRequest.Limit = 10;
-                    SearchResponse Response = await Client.Search.Item(SpotifySongRequest);
-                    SongPage SongPage = new SongPage(Response);
+                    SearchResponse Response = await client.Search.Item(SpotifySongRequest);
+                    SongPage SongPage = new SongPage(Response, player);
                     MainFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
                     MainFrame.Content = SongPage;
                     break;
@@ -80,24 +81,29 @@ namespace SpotifyCSharp
             try
             {
                 // Set the client to use other functionality of spotify
-                this.Client = Client;
-                Player = Client.Player;
+                this.client = Client;
+                player = Client.Player;
+                SearchButton.IsEnabled = true;
+                SearchTextField.IsEnabled = true;
                 PrivateUser User = await Client.UserProfile.Current();
 
                 // Login button becomes hidden. I think there is an error thrown here when you log in for the first time.
                 // Rerun it again and it should be fine.
-                LoginButton.Visibility = Visibility.Hidden;
-                LogoutButton.Visibility = Visibility.Visible;
-
-                // Profile image and name label becomes visible
-                ProfileImage.Visibility = Visibility.Visible;
-                UserGroupBox.Header = User.DisplayName;
-
-                // Check to see if the user has a profile image
-                if (User.Images.Count > 0)
+                this.Dispatcher.Invoke(() =>
                 {
-                    ProfileImage.Source = GetImage(User.Images[0].Url);
-                }
+                    LoginButton.Visibility = Visibility.Hidden;
+                    LogoutButton.Visibility = Visibility.Visible;
+
+                    // Profile image and name label becomes visible
+                    ProfileImage.Visibility = Visibility.Visible;
+                    UserGroupBox.Header = User.DisplayName;
+
+                    // Check to see if the user has a profile image
+                    if (User.Images.Count > 0)
+                    {
+                        ProfileImage.Source = GetImage(User.Images[0].Url);
+                    }
+                });
             }
             catch (APIException e)
             {
@@ -125,7 +131,7 @@ namespace SpotifyCSharp
         // Called when the login button is clicked to open the web browser if they haven't authenticated before.
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            await Auth.StartAuthentication();
+            await auth.StartAuthentication();
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

@@ -7,8 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="heart.png" />
+    <None Remove="play.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
     <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="heart.png" />
+    <Resource Include="play.png" />
   </ItemGroup>
 
 </Project>

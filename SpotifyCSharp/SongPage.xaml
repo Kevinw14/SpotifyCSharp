@@ -7,5 +7,5 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SongPage">
-    <local:TableView x:Name="SongTableView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    <local:TableView x:Name="SongTableView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#E0FFFFFF"/>
 </Page>
