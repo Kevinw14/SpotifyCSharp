@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="SpotifyCSharp.player"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpotifyCSharp"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="800">
+    <Grid x:Name="PlayerViewGrid" Background="White">
+        <Image x:Name="AlbumImg" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Height="75" Width="75"/>
+        <Label x:Name="LblArtist" Content="Metallica" Margin="100,23,560,50"/>
+        <Label x:Name="LblSong" Content="Enter Sandman" Margin="100,50,560,23"/>
+        <Image x:Name="PreviousImg" HorizontalAlignment="Left" Height="40" Margin="340,18,0,0" VerticalAlignment="Top" Width="40" Source="/previous.png" MouseLeftButtonDown="PreviousImg_MouseLeftButtonDown"/>
+        <Image x:Name="SkipImg" HorizontalAlignment="Left" Height="40" Margin="415,18,0,0" VerticalAlignment="Top" Width="40" Source="/skip.png" MouseLeftButtonDown="SkipImg_MouseLeftButtonDown"/>
+        <Image x:Name="PlayPauseImg" Height="30" Width="40" Margin="380,23,380,47" Source="/play.png" MouseLeftButtonDown="PlayPauseImg_MouseLeftButtonDown"/>
+        <Label x:Name="LblStartTime" Content="0:00" Margin="278,55,486,18"/>
+        <Label x:Name="LblEndTime" Content="0:00" Margin="490,55,274,18"/>
+        <Image x:Name="ShuffleImg" Height="40" Width="40" Margin="300,18,460,42" Source="/Shuffle.png" MouseLeftButtonDown="ShuffleImg_MouseLeftButtonDown"/>
+        <Image x:Name="RepeatImg" Height="40" Width="40" Source="/Repeat.png" Margin="455,18,305,42" MouseLeftButtonDown="RepeatImg_MouseLeftButtonDown"/>
+        <Image x:Name="VolImg" Height="40" Width="40" Source="/LowVol.png" Margin="593,30,167,30" MouseLeftButtonDown="VolImg_MouseLeftButtonDown"/>
+        <Image x:Name="InfoImg" Height="40" Width="40" Source="/info.png" Margin="750,30,10,30" MouseLeftButtonDown="InfoImg_MouseLeftButtonDown"/>
+    </Grid>
+</UserControl>
