@@ -5,8 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SpotifyCSharp"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="200">
-    <Grid Background="Red">
-            
+             d:DesignHeight="200" HorizontalAlignment="Stretch" Width="1200" Background="White">
+    <Grid>
+        <Image x:Name="AlbumImage" Height="100" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="100"/>
+        <TextBlock x:Name="ArtistLabel" Text="Label" HorizontalAlignment="Left" Margin="150,30,0,0" VerticalAlignment="Center"/>
+        <TextBlock x:Name="AlbumLabel" TextAlignment="Left" Margin="150,0,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Left" Width="660"/>
+        <Image x:Name="PlayButton" HorizontalAlignment="Right" Height="30" Margin="0,0,50,0" VerticalAlignment="Center" Width="30" MouseLeftButtonDown="Image_MouseLeftButtonDown" Source="/play.png">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="/play.png"/>
+            </Image.OpacityMask>
+        </Image>
     </Grid>
 </local:TableViewCell>

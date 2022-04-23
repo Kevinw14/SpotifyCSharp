@@ -16,8 +16,6 @@ namespace SpotifyCSharp
     {
 
         private Authenticator auth;
-        //Used to control the playback of songs requested.
-        private IPlayerClient player;
         // Spotify Client.
         private SpotifyClient client;
 
@@ -53,14 +51,18 @@ namespace SpotifyCSharp
                 case SearchType.Song:
                     SearchRequest SpotifySongRequest = new SearchRequest(SearchRequest.Types.Track, request);
                     SpotifySongRequest.Limit = 10;
-                    SearchResponse Response = await client.Search.Item(SpotifySongRequest);
-                    SongPage SongPage = new SongPage(Response, player);
-                    MainFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+                    SearchResponse SongResponse = await client.Search.Item(SpotifySongRequest);
+                    List<FullTrack> Songs = SongResponse.Tracks.Items;
+                    SongPage SongPage = new SongPage(Songs, client, PlayerController);
                     MainFrame.Content = SongPage;
                     break;
                 case SearchType.Album:
                     SearchRequest SpotifyAlbumRequest = new SearchRequest(SearchRequest.Types.Album, request);
                     SpotifyAlbumRequest.Limit = 10;
+                    SearchResponse AlbumResponse = await client.Search.Item(SpotifyAlbumRequest);
+                    List<SimpleAlbum> Albums = AlbumResponse.Albums.Items;
+                    AlbumPage AlbumPage = new AlbumPage(Albums, client, PlayerController);
+                    MainFrame.Content = AlbumPage;
                     break;
                 case SearchType.Artist:
                     SearchRequest SpotifyArtistRequest = new SearchRequest(SearchRequest.Types.Artist, request);
@@ -82,9 +84,9 @@ namespace SpotifyCSharp
             {
                 // Set the client to use other functionality of spotify
                 this.client = Client;
-                player = Client.Player;
                 SearchButton.IsEnabled = true;
                 SearchTextField.IsEnabled = true;
+                //PlayerController.Client = Client;
                 PrivateUser User = await Client.UserProfile.Current();
 
                 // Login button becomes hidden. I think there is an error thrown here when you log in for the first time.
@@ -143,9 +145,9 @@ namespace SpotifyCSharp
         {
             string query = SearchTextField.Text;
             if (SongRadioButton.IsChecked == true)
-            {
                 await Search(query, SearchType.Song);
-            }
+            else if (AlbumRadioButton.IsChecked == true)
+                await Search(query, SearchType.Album);
         }
     }
 }

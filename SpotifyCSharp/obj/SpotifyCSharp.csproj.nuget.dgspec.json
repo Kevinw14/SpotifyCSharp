@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\natha\\OneDrive\\Desktop\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj": {}
+    "C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\natha\\OneDrive\\Desktop\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj": {
+    "C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\natha\\OneDrive\\Desktop\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj",
+        "projectUniqueName": "C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj",
         "projectName": "SpotifyCSharp",
-        "projectPath": "C:\\Users\\natha\\OneDrive\\Desktop\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj",
-        "packagesPath": "C:\\Users\\natha\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\natha\\OneDrive\\Desktop\\SpotifyCSharp\\SpotifyCSharp\\obj\\",
+        "projectPath": "C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj",
+        "packagesPath": "C:\\Users\\kevin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\natha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\kevin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0-windows7.0"

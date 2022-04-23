@@ -1,28 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SpotifyAPI.Web;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SpotifyCSharp
 {
     /// <summary>
     /// Interaction logic for player.xaml
     /// </summary>
+    /// 
+    public interface PlayerDelegate
+    {
+
+    }
+
     public partial class player : UserControl
     {
+        private SpotifyClient client;
+        private FullTrack song;
+        public SpotifyClient Client
+        {
+            get
+            {
+                return client;
+            }
+
+            set
+            {
+                client = value;
+            }
+        }
+
+        public FullTrack Song
+        {
+            get
+            {
+                return song;
+            }
+
+            set
+            {
+                song = value;
+                AlbumImg.Source = GetImage(song.Album.Images[0].Url);
+                TimeSlider.Value = 0;
+            }
+        }
         public player()
         {
             InitializeComponent();
+
+            VolImg.Source = GetImage("C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\LowVol.png");
+            VolumeSlider.Value = 20;
+        }
+
+        private BitmapImage GetImage(string URL)
+        {
+            BitmapImage Bitmap = new BitmapImage();
+            Bitmap.BeginInit();
+            Bitmap.UriSource = new Uri(URL);
+            Bitmap.EndInit();
+            return Bitmap;
         }
 
         private void PlayPauseImg_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -70,6 +109,20 @@ namespace SpotifyCSharp
         private void RepeatImg_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             //again depending on what img is the source on click, will change to other image and change repeat
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (e.NewValue >= 66)
+                VolImg.Source = GetImage("C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\HiVol.png");
+            else if (e.NewValue >= 33)
+                VolImg.Source = GetImage("C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\MedVol.png");
+            else
+                VolImg.Source = GetImage("C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\LowVol.png");
+        }
+
+        private void TimeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
         }
     }
 }

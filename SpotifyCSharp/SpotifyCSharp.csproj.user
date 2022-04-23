@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="AlbumPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="AlbumTableViewCell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -24,6 +27,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AlbumPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="AlbumTableViewCell.xaml">
       <SubType>Designer</SubType>
     </Page>

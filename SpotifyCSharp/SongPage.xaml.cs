@@ -14,15 +14,16 @@ namespace SpotifyCSharp
     public partial class SongPage : Page, TableViewDelegate, TableViewDatasource, SongTableViewCellDelegate
     {
         private List<FullTrack> songs;
-        private IPlayerClient player;
+        private SpotifyClient client;
         private SongTableViewCell current_cell;
         private FullTrack current_song;
-        private bool is_playing = false;
-        public SongPage(SearchResponse Response, IPlayerClient Player)
+        private player PlayerController;
+        public SongPage(List<FullTrack> Songs, SpotifyClient Client, player PlayerController)
         {
             InitializeComponent();
-            this.player = Player;
-            songs = Response.Tracks.Items;
+            this.client = Client;
+            this.PlayerController = PlayerController;
+            songs = Songs;
             SongTableView.Delegate = this;
             SongTableView.Datasource = this;
             SongTableView.Refresh();
@@ -48,30 +49,20 @@ namespace SpotifyCSharp
             Bitmap.EndInit();
             return Bitmap;
         }
-
-        public double HeightForRow(TableView TableView, IndexPath IndexPath)
-        {
-            return 140;
-        }
         public int NumberOfRowsInSection(TableView TableView, int Section)
         {
             return songs.Count;
-        }
-
-        public double SpaceBetweenRows(TableView TableView, int Section)
-        {
-            return 20;
         }
 
         private async Task PlaySong(FullTrack Song)
         {
             PlayerResumePlaybackRequest SongPlaybackRequest = new PlayerResumePlaybackRequest();
             SongPlaybackRequest.Uris = new List<string> { Song.Uri };
-            DeviceResponse DeviceResponse = await player.GetAvailableDevices();
+            DeviceResponse DeviceResponse = await client.Player.GetAvailableDevices();
             List<Device> Devices = DeviceResponse.Devices;
             Device Desktop = Devices[0];
             SongPlaybackRequest.DeviceId = Desktop.Id;
-            await player.ResumePlayback(SongPlaybackRequest);
+            await client.Player.ResumePlayback(SongPlaybackRequest);
         }
         public async void PlayButtonTapped(IndexPath IndexPath, SongTableViewCell SongTableViewCell)
         {
@@ -85,7 +76,7 @@ namespace SpotifyCSharp
             {
                 if (song.Id == current_song.Id)
                 {
-                    await player.ResumePlayback();
+                    await client.Player.ResumePlayback();
                 }
                 else
                 {
@@ -95,6 +86,7 @@ namespace SpotifyCSharp
             else
             {
                 await PlaySong(song);
+                PlayerController.PlayPauseImg.Source = GetImage("C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\pause.png");
             }
 
 

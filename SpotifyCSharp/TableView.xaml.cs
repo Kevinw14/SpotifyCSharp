@@ -10,8 +10,8 @@ namespace SpotifyCSharp
     /// 
     public interface TableViewDelegate
     {
-        public double HeightForRow(TableView TableView, IndexPath IndexPath);
-        public double SpaceBetweenRows(TableView TableView, int Section);
+        public double HeightForRow(TableView TableView, IndexPath IndexPath) { return 140; } 
+        public double SpaceBetweenRows(TableView TableView, int Section) { return 20;  }
     }
 
     public interface TableViewDatasource
