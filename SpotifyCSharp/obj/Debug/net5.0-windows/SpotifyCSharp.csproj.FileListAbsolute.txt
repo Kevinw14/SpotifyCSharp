@@ -78,3 +78,5 @@ C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\SpotifyCSharp.csproj.AssemblyReference.cache
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\AlbumPage.g.cs
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\AlbumPage.baml
+C:\Users\natha\OneDrive\Desktop\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\AlbumPage.g.cs
+C:\Users\natha\OneDrive\Desktop\SpotifyCSharp\SpotifyCSharp\obj\Debug\net5.0-windows\AlbumPage.baml

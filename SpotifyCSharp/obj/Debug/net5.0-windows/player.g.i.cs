@@ -164,7 +164,7 @@ namespace SpotifyCSharp {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SpotifyCSharp;V1.0.0.0;component/player.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SpotifyCSharp;component/player.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\player.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

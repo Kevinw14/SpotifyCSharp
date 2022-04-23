@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "nxnWPfWwNmJAQ0/TeH33lWP56/axftANgbEOa4AxY+V07QZrTREppJKcgDT2cf4CYb987/XfrryOLXw7fPC6XQ==",
+  "dgSpecHash": "dg965G+Sa+Mc2XLOP0UMa1VDeIOibPMAMY1kcU5wV2PXON+KvqSDMZCTldjwOhD+Cvuh3ucxqslbu0tnDojbOQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj",
+  "projectFilePath": "C:\\Users\\natha\\OneDrive\\Desktop\\SpotifyCSharp\\SpotifyCSharp\\SpotifyCSharp.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\kevin\\.nuget\\packages\\embedio\\3.4.3\\embedio.3.4.3.nupkg.sha512",
-    "C:\\Users\\kevin\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
-    "C:\\Users\\kevin\\.nuget\\packages\\spotifyapi.web\\6.2.2\\spotifyapi.web.6.2.2.nupkg.sha512",
-    "C:\\Users\\kevin\\.nuget\\packages\\spotifyapi.web.auth\\6.2.2\\spotifyapi.web.auth.6.2.2.nupkg.sha512",
-    "C:\\Users\\kevin\\.nuget\\packages\\unosquare.swan.lite\\3.0.0\\unosquare.swan.lite.3.0.0.nupkg.sha512"
+    "C:\\Users\\natha\\.nuget\\packages\\embedio\\3.4.3\\embedio.3.4.3.nupkg.sha512",
+    "C:\\Users\\natha\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\natha\\.nuget\\packages\\spotifyapi.web\\6.2.2\\spotifyapi.web.6.2.2.nupkg.sha512",
+    "C:\\Users\\natha\\.nuget\\packages\\spotifyapi.web.auth\\6.2.2\\spotifyapi.web.auth.6.2.2.nupkg.sha512",
+    "C:\\Users\\natha\\.nuget\\packages\\unosquare.swan.lite\\3.0.0\\unosquare.swan.lite.3.0.0.nupkg.sha512"
   ],
   "logs": []
 }
