@@ -8,12 +8,20 @@
 
   <ItemGroup>
     <None Remove="heart.png" />
-    <None Remove="info.png" />
-    <None Remove="play.png" />
-    <None Remove="previous.png" />
-    <None Remove="Repeat.png" />
-    <None Remove="Shuffle.png" />
-    <None Remove="skip.png" />
+    <None Remove="Images\HiVol.png" />
+    <None Remove="Images\hi_vol.png" />
+    <None Remove="Images\LowVol.png" />
+    <None Remove="Images\low_vol.png" />
+    <None Remove="Images\MedVol.png" />
+    <None Remove="Images\med_vol.png" />
+    <None Remove="Images\play.png" />
+    <None Remove="Images\previous.png" />
+    <None Remove="Images\repeat-context.png" />
+    <None Remove="Images\repeat-off.png" />
+    <None Remove="Images\repeat-track.png" />
+    <None Remove="Images\shuffle-off.png" />
+    <None Remove="Images\shuffle-on.png" />
+    <None Remove="Images\skip.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,13 +30,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\heart.png" />
-    <Resource Include="info.png" />
-    <Resource Include="play.png" />
-    <Resource Include="previous.png" />
-    <Resource Include="Repeat.png" />
-    <Resource Include="Shuffle.png" />
-    <Resource Include="skip.png" />
+    <Resource Include="Images\hi_vol.png" />
+    <Resource Include="Images\low_vol.png" />
+    <Resource Include="Images\med_vol.png" />
+    <Resource Include="Images\play.png" />
+    <Resource Include="Images\previous.png" />
+    <Resource Include="Images\repeat-context.png" />
+    <Resource Include="Images\repeat-off.png" />
+    <Resource Include="Images\repeat-track.png" />
+    <Resource Include="Images\shuffle-off.png" />
+    <Resource Include="Images\shuffle-on.png" />
+    <Resource Include="Images\skip.png" />
   </ItemGroup>
 
 </Project>

@@ -10,12 +10,8 @@
         <Image x:Name="AlbumImage" Height="100" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="100"/>
         <TextBlock x:Name="ArtistLabel" Text="Label" HorizontalAlignment="Left" Margin="150,30,0,0" VerticalAlignment="Center"/>
         <TextBlock x:Name="SongLabel" TextAlignment="Left" Margin="150,0,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Left" Width="660"/>
-        <Image x:Name="PlayButton" HorizontalAlignment="Right" Height="30" Margin="0,0,50,0" VerticalAlignment="Center" Width="30" MouseLeftButtonDown="Image_MouseLeftButtonDown" Source="/play.png">
-            <Image.OpacityMask>
-                <ImageBrush ImageSource="/play.png"/>
-            </Image.OpacityMask>
-        </Image>
-        <Image x:Name="LikeButton" HorizontalAlignment="Right" Height="30" Margin="0,0,100,0" VerticalAlignment="Center" Width="30" MouseLeftButtonDown="LikeButton_MouseLeftButtonDown" Source="/Images/heart.png"/>
+        <Image x:Name="PlayButton" HorizontalAlignment="Right" Height="30" Margin="0,0,50,0" VerticalAlignment="Center" Width="30" MouseLeftButtonDown="Image_MouseLeftButtonDown" Source="/play.png"/>
+        <Image x:Name="LikeButton" HorizontalAlignment="Right" Height="30" Margin="0,0,100,0" VerticalAlignment="Center" Width="30" MouseLeftButtonDown="LikeButton_MouseLeftButtonDown" Source="https://img.icons8.com/ios-glyphs/30/like--v1.png" OpacityMask="Black"/>
 
     </Grid>
 </local:TableViewCell>

@@ -19,12 +19,16 @@ namespace SpotifyCSharp
     /// <summary>
     /// Interaction logic for AlbumPage.xaml
     /// </summary>
-    public partial class AlbumPage : Page, TableViewDatasource, TableViewDelegate
+    public partial class AlbumPage : Page, TableViewDatasource, TableViewDelegate, AlbumTableViewCellDelegate
     {
         private List<SimpleAlbum> albums;
-        public AlbumPage(List<SimpleAlbum> Albums, SpotifyClient Client, player PlayerController)
+        private player player_controller;
+        private Frame main_frame;
+        public AlbumPage(List<SimpleAlbum> Albums, player PlayerController, Frame MainFrame)
         {
             InitializeComponent();
+            this.player_controller = PlayerController;
+            this.main_frame = MainFrame;
             this.albums = Albums;
             this.AlbumTableView.Datasource = this;
             this.AlbumTableView.Delegate = this;
@@ -34,6 +38,7 @@ namespace SpotifyCSharp
         public TableViewCell CellForRow(TableView TableView, IndexPath IndexPath)
         {
             AlbumTableViewCell Cell = new AlbumTableViewCell(IndexPath);
+            Cell.Delegate = this;
             SimpleAlbum Album = albums[IndexPath.Row];
             Cell.AlbumLabel.Text = Album.Name;
             Cell.ArtistLabel.Text = Album.Artists[0].Name;
@@ -53,6 +58,22 @@ namespace SpotifyCSharp
         public int NumberOfRowsInSection(TableView TableView, int Section)
         {
             return albums.Count;
+        }
+
+        public void PlayButtonTapped(IndexPath IndexPath)
+        {
+            SimpleAlbum Album = albums[IndexPath.Row];
+            //player_controller.Play(Album);
+        }
+
+        public async void AlbumCellTapped(IndexPath IndexPath)
+        {
+            SimpleAlbum Album = albums[IndexPath.Row];
+            AlbumTracksRequest ATRequest = new AlbumTracksRequest();
+            ATRequest.Market = Album.AvailableMarkets[0];
+            Paging<SimpleTrack> Songs = await player_controller.Client.Albums.GetTracks(Album.Id, ATRequest);
+            SimpleTrackPage SimpleSongPage = new SimpleTrackPage(Songs.Items, player_controller, Album.Images[0].Url);
+            main_frame.Content = SimpleSongPage;
         }
     }
 }

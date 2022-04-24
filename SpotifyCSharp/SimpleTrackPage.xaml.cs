@@ -2,24 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace SpotifyCSharp
 {
     /// <summary>
-    /// Interaction logic for SongPage.xaml
+    /// Interaction logic for SimpleTrackPage.xaml
     /// </summary>
-    public partial class SongPage : Page, TableViewDelegate, TableViewDatasource
+    public partial class SimpleTrackPage : Page, TableViewDelegate, TableViewDatasource, SongTableViewCellDelegate
     {
-        private List<FullTrack> songs;
+        private List<SimpleTrack> songs;
+        private string AlbumUrl;
         private player player_controller;
-        public SongPage(List<FullTrack> Songs, player PlayerController)
+        public SimpleTrackPage(List<SimpleTrack> Songs, player PlayerController, string AlbumUrl)
         {
             InitializeComponent();
             this.player_controller = PlayerController;
             songs = Songs;
+            this.AlbumUrl = AlbumUrl;
             SongTableView.Delegate = this;
             SongTableView.Datasource = this;
             SongTableView.Refresh();
@@ -28,10 +29,11 @@ namespace SpotifyCSharp
         public TableViewCell CellForRow(TableView TableView, IndexPath IndexPath)
         {
             SongTableViewCell Cell = new SongTableViewCell(IndexPath);
-            FullTrack Song = songs[IndexPath.Row];
+            Cell.Delegate = this;
+            SimpleTrack Song = songs[IndexPath.Row];
             Cell.SongLabel.Text = Song.Name;
             Cell.ArtistLabel.Text = Song.Artists[0].Name;
-            Cell.AlbumImage.Source = GetImage(Song.Album.Images[0].Url);
+            Cell.AlbumImage.Source = GetImage(AlbumUrl);
             return Cell;
         }
 
@@ -47,6 +49,17 @@ namespace SpotifyCSharp
         public int NumberOfRowsInSection(TableView TableView, int Section)
         {
             return songs.Count;
+        }
+
+        public void PlayButtonTapped(IndexPath IndexPath, SongTableViewCell SongTableViewCell)
+        {
+            SimpleTrack Song = songs[IndexPath.Row];
+            player_controller.Play(Song);
+        }
+
+        public void LikeButtonTapped(IndexPath IndexPath)
+        {
+            throw new NotImplementedException();
         }
     }
 }

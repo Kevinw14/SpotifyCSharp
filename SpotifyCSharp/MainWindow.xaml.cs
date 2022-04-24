@@ -53,7 +53,7 @@ namespace SpotifyCSharp
                     SpotifySongRequest.Limit = 10;
                     SearchResponse SongResponse = await client.Search.Item(SpotifySongRequest);
                     List<FullTrack> Songs = SongResponse.Tracks.Items;
-                    SongPage SongPage = new SongPage(Songs, client, PlayerController);
+                    SongPage SongPage = new SongPage(Songs, PlayerController);
                     MainFrame.Content = SongPage;
                     break;
                 case SearchType.Album:
@@ -61,7 +61,7 @@ namespace SpotifyCSharp
                     SpotifyAlbumRequest.Limit = 10;
                     SearchResponse AlbumResponse = await client.Search.Item(SpotifyAlbumRequest);
                     List<SimpleAlbum> Albums = AlbumResponse.Albums.Items;
-                    AlbumPage AlbumPage = new AlbumPage(Albums, client, PlayerController);
+                    AlbumPage AlbumPage = new AlbumPage(Albums, PlayerController, MainFrame);
                     MainFrame.Content = AlbumPage;
                     break;
                 case SearchType.Artist:
@@ -84,15 +84,15 @@ namespace SpotifyCSharp
             {
                 // Set the client to use other functionality of spotify
                 this.client = Client;
-                SearchButton.IsEnabled = true;
-                SearchTextField.IsEnabled = true;
-                //PlayerController.Client = Client;
+                PlayerController.Client = Client;
                 PrivateUser User = await Client.UserProfile.Current();
 
                 // Login button becomes hidden. I think there is an error thrown here when you log in for the first time.
                 // Rerun it again and it should be fine.
                 this.Dispatcher.Invoke(() =>
                 {
+                    SearchButton.IsEnabled = true;
+                    SearchTextField.IsEnabled = true;
                     LoginButton.Visibility = Visibility.Hidden;
                     LogoutButton.Visibility = Visibility.Visible;
 

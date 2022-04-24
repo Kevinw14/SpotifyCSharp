@@ -1,5 +1,6 @@
 ﻿using SpotifyAPI.Web;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,6 +23,7 @@ namespace SpotifyCSharp
         private FullTrack song;
         private bool isPlaying = false;
         private bool shuffle = false;
+        private PlayerSetRepeatRequest.State repeat_state = PlayerSetRepeatRequest.State.Off;
         private string repeat = "off";
         public SpotifyClient Client
         {
@@ -53,9 +55,7 @@ namespace SpotifyCSharp
         public player()
         {
             InitializeComponent();
-
-            VolImg.Source = GetImage("C:\\Users\\natha\\\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\LowVol.png");
-            VolumeSlider.Value = 20;
+            VolumeSlider.Value = 100;
         }
 
         private BitmapImage GetImage(string URL)
@@ -67,6 +67,20 @@ namespace SpotifyCSharp
             return Bitmap;
         }
 
+        public async void Play(SimpleTrack Song)
+        {
+
+        }
+
+        public async void Play(FullTrack Song)
+        {
+
+        }
+
+        public async void Play(SimpleAlbum Album)
+        {
+
+        }
         private async void PlayPauseImg_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             //if source img is play.png
@@ -95,16 +109,21 @@ namespace SpotifyCSharp
             
             if (shuffle)
             {
-                PlayerShuffleRequest sh = new PlayerShuffleRequest(false);
-                await Client.Player.SetShuffle(sh);
                 shuffle = false;
+                PlayerShuffleRequest shoff = new PlayerShuffleRequest(shuffle);
+                await Client.Player.SetShuffle(shoff);
+                ShuffleImg.Source = new BitmapImage(new Uri("/Images/shuffle-off.png", UriKind.Relative));
             }
             else
             {
-                PlayerShuffleRequest sh = new PlayerShuffleRequest(true);
-                await Client.Player.SetShuffle(sh);
                 shuffle = true;
+                PlayerShuffleRequest shon = new PlayerShuffleRequest(shuffle);
+                await Client.Player.SetShuffle(shon);
+                ShuffleImg.Source = new BitmapImage(new Uri("/Images/shuffle-on.png", UriKind.Relative));
             }
+
+            PlayerShuffleRequest sh = new PlayerShuffleRequest(shuffle);
+            await Client.Player.SetShuffle(sh);
         }
 
         private async void SkipImg_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -133,37 +152,49 @@ namespace SpotifyCSharp
 
         private async void RepeatImg_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (repeat.Equals("off"))
+            DeviceResponse device_response = await client.Player.GetAvailableDevices();
+            List<Device> devices = device_response.Devices;
+            Device device = devices[0];
+
+            switch (repeat_state)
             {
-                PlayerSetRepeatRequest rep = new PlayerSetRepeatRequest(PlayerSetRepeatRequest.State.Track);
-                await Client.Player.SetRepeat(rep);
-                repeat = "track";
+                case PlayerSetRepeatRequest.State.Off:
+                    repeat_state = PlayerSetRepeatRequest.State.Context;
+                    PlayerSetRepeatRequest context_rep = new PlayerSetRepeatRequest(repeat_state);
+                    context_rep.DeviceId = device.Id;
+                    await Client.Player.SetRepeat(context_rep);
+                    RepeatImg.Source = new BitmapImage(new Uri("/Images/repeat-context.png", UriKind.Relative));
+                    break;
+                case PlayerSetRepeatRequest.State.Track:
+                    repeat_state = PlayerSetRepeatRequest.State.Off;
+                    PlayerSetRepeatRequest off_rep = new PlayerSetRepeatRequest(repeat_state);
+                    off_rep.DeviceId = device.Id;
+                    await Client.Player.SetRepeat(off_rep);
+                    RepeatImg.Source = new BitmapImage(new Uri("/Images/repeat-off.png", UriKind.Relative));
+                    break;
+                case PlayerSetRepeatRequest.State.Context:
+                    repeat_state = PlayerSetRepeatRequest.State.Track;
+                    PlayerSetRepeatRequest track_rep = new PlayerSetRepeatRequest(repeat_state);
+                    track_rep.DeviceId = device.Id;
+                    await Client.Player.SetRepeat(track_rep);
+                    RepeatImg.Source = new BitmapImage(new Uri("/Images/repeat-track.png", UriKind.Relative));
+                    break;
             }
-            else if (repeat.Equals("track"))
-            {
-                PlayerSetRepeatRequest rep = new PlayerSetRepeatRequest(PlayerSetRepeatRequest.State.Context);
-                await Client.Player.SetRepeat(rep);
-                repeat = "context";
-            }
-            else
-            {
-                PlayerSetRepeatRequest rep = new PlayerSetRepeatRequest(PlayerSetRepeatRequest.State.Off);
-                await Client.Player.SetRepeat(rep);
-                repeat = "off";
-            }
-            //again depending on what img is the source on click, will change to other image and change repeat
         }
 
-        private void VolumeSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (e.NewValue >= 66)
-                VolImg.Source = GetImage("C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\HiVol.png");
+                VolImg.Source = new BitmapImage(new Uri("/Images/hi_vol.png", UriKind.Relative));
             else if (e.NewValue >= 33)
-                VolImg.Source = GetImage("C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\MedVol.png");
+                VolImg.Source = new BitmapImage(new Uri("/Images/med_vol.png", UriKind.Relative));
             else
-                VolImg.Source = GetImage("C:\\Users\\kevin\\source\\repos\\SpotifyCSharp\\SpotifyCSharp\\Images\\LowVol.png");
-            PlayerVolumeRequest vol = new PlayerVolumeRequest(Convert.ToInt32(e.NewValue));
-            Client.Player.SetVolume(vol);
+                VolImg.Source = new BitmapImage(new Uri("/Images/low_vol.png", UriKind.Relative));
+            if (Client != null)
+            {
+                PlayerVolumeRequest vol = new PlayerVolumeRequest(Convert.ToInt32(e.NewValue));
+                Client.Player.SetVolume(vol);
+            }
         }
 
         private void TimeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -174,8 +205,11 @@ namespace SpotifyCSharp
 
             long time = Convert.ToInt64(duration / place);
 
-            PlayerSeekToRequest seek = new PlayerSeekToRequest(time);
-            Client.Player.SeekTo(seek);
+            if (Client != null)
+            {
+                PlayerSeekToRequest seek = new PlayerSeekToRequest(time);
+                Client.Player.SeekTo(seek);
+            }
         }
     }
 }
