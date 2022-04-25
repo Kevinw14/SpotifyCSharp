@@ -8,12 +8,15 @@
 
   <ItemGroup>
     <None Remove="heart.png" />
+    <None Remove="Images\audio-wave.gif" />
     <None Remove="Images\HiVol.png" />
     <None Remove="Images\hi_vol.png" />
     <None Remove="Images\LowVol.png" />
     <None Remove="Images\low_vol.png" />
     <None Remove="Images\MedVol.png" />
     <None Remove="Images\med_vol.png" />
+    <None Remove="Images\mute.png" />
+    <None Remove="Images\pause.png" />
     <None Remove="Images\play.png" />
     <None Remove="Images\previous.png" />
     <None Remove="Images\repeat-context.png" />
@@ -27,12 +30,16 @@
   <ItemGroup>
     <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
     <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.2" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\audio-wave.gif" />
     <Resource Include="Images\hi_vol.png" />
     <Resource Include="Images\low_vol.png" />
     <Resource Include="Images\med_vol.png" />
+    <Resource Include="Images\mute.png" />
+    <Resource Include="Images\pause.png" />
     <Resource Include="Images\play.png" />
     <Resource Include="Images\previous.png" />
     <Resource Include="Images\repeat-context.png" />

@@ -67,6 +67,10 @@ namespace SpotifyCSharp
                 case SearchType.Artist:
                     SearchRequest SpotifyArtistRequest = new SearchRequest(SearchRequest.Types.Artist, request);
                     SpotifyArtistRequest.Limit = 10;
+                    SearchResponse ArtistResponse = await client.Search.Item(SpotifyArtistRequest);
+                    List<FullArtist> Artists = ArtistResponse.Artists.Items;
+                    ArtistsPage ArtistPage = new ArtistsPage(Artists, PlayerController, MainFrame);
+                    MainFrame.Content = ArtistPage;
                     break;
                 case SearchType.Episode:
                     SearchRequest SpotifyEpisodeRequest = new SearchRequest(SearchRequest.Types.Episode, request);
@@ -84,7 +88,11 @@ namespace SpotifyCSharp
             {
                 // Set the client to use other functionality of spotify
                 this.client = Client;
+                DeviceResponse DeviceResponse = await Client.Player.GetAvailableDevices();
+                List<Device> Devices = DeviceResponse.Devices;
+                Device Device = Devices[0];
                 PlayerController.Client = Client;
+                PlayerController.Device = Device;
                 PrivateUser User = await Client.UserProfile.Current();
 
                 // Login button becomes hidden. I think there is an error thrown here when you log in for the first time.
@@ -103,7 +111,7 @@ namespace SpotifyCSharp
                     // Check to see if the user has a profile image
                     if (User.Images.Count > 0)
                     {
-                        ProfileImage.Source = GetImage(User.Images[0].Url);
+                        ProfileImage.Source = new BitmapImage(new Uri(User.Images[0].Url));
                     }
                 });
             }
@@ -111,23 +119,6 @@ namespace SpotifyCSharp
             {
                 MessageBox.Show(e.Response.StatusCode.ToString());
             }
-        }
-
-
-        // Helper method that returns an BitmapImage from a URL. 
-        private BitmapImage GetImage(string URL)
-        {
-            BitmapImage Bitmap = new BitmapImage();
-            Bitmap.BeginInit();
-            Bitmap.UriSource = new Uri(URL);
-            Bitmap.EndInit();
-            return Bitmap;
-        }
-
-        // Handle logging the user out (Deleting the credentials file) and updating the UI.
-        public void AuthenticatorDidFinishLoggingOut()
-        {
-
         }
 
         // Called when the login button is clicked to open the web browser if they haven't authenticated before.
@@ -138,7 +129,16 @@ namespace SpotifyCSharp
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            auth.logout();
+            client = null;
+            SearchButton.IsEnabled = false;
+            SearchTextField.IsEnabled = false;
+            LoginButton.Visibility = Visibility.Visible;
+            LogoutButton.Visibility = Visibility.Hidden;
 
+            // Profile image and name label becomes visible
+            ProfileImage.Visibility = Visibility.Hidden;
+            UserGroupBox.Header = "User Info";
         }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -148,6 +148,8 @@ namespace SpotifyCSharp
                 await Search(query, SearchType.Song);
             else if (AlbumRadioButton.IsChecked == true)
                 await Search(query, SearchType.Album);
+            else if (ArtistRadioButton.IsChecked == true)
+                await Search(query, SearchType.Artist);
         }
     }
 }

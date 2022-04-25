@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 C:\Users\kevin\source\repos\SpotifyCSharp\SpotifyCSharp\App.xaml
-8-1671219565
+10-560402848
 
-161150950937
-198387003032
-AlbumPage.xaml;AlbumTableViewCell.xaml;MainWindow.xaml;player.xaml;SimpleTrackPage.xaml;SongPage.xaml;SongTableViewCell.xaml;TableView.xaml;
+18-1723345271
+199-2047092045
+AlbumPage.xaml;AlbumTableViewCell.xaml;ArtistsPage.xaml;ArtistTableViewCell.xaml;MainWindow.xaml;player.xaml;SimpleTrackPage.xaml;SongPage.xaml;SongTableViewCell.xaml;TableView.xaml;
 
 False
 

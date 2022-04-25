@@ -13,6 +13,12 @@
     <Compile Update="AlbumTableViewCell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ArtistsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ArtistTableViewCell.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="player.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -31,6 +37,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="AlbumTableViewCell.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ArtistsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ArtistTableViewCell.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

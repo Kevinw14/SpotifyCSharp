@@ -1,18 +1,9 @@
 ﻿using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WpfAnimatedGif;
 
 namespace SpotifyCSharp
 {
@@ -24,6 +15,7 @@ namespace SpotifyCSharp
         private List<SimpleAlbum> albums;
         private player player_controller;
         private Frame main_frame;
+        private AlbumTableViewCell current_cell;
         public AlbumPage(List<SimpleAlbum> Albums, player PlayerController, Frame MainFrame)
         {
             InitializeComponent();
@@ -60,20 +52,12 @@ namespace SpotifyCSharp
             return albums.Count;
         }
 
-        public void PlayButtonTapped(IndexPath IndexPath)
-        {
-            SimpleAlbum Album = albums[IndexPath.Row];
-            //player_controller.Play(Album);
-        }
-
         public async void AlbumCellTapped(IndexPath IndexPath)
         {
-            SimpleAlbum Album = albums[IndexPath.Row];
-            AlbumTracksRequest ATRequest = new AlbumTracksRequest();
-            ATRequest.Market = Album.AvailableMarkets[0];
-            Paging<SimpleTrack> Songs = await player_controller.Client.Albums.GetTracks(Album.Id, ATRequest);
-            SimpleTrackPage SimpleSongPage = new SimpleTrackPage(Songs.Items, player_controller, Album.Images[0].Url);
-            main_frame.Content = SimpleSongPage;
+            SimpleAlbum album = albums[IndexPath.Row];
+            Paging<SimpleTrack> songs = await player_controller.Client.Albums.GetTracks(album.Id);
+            SimpleTrackPage simple_track_page = new SimpleTrackPage(songs.Items, player_controller, album.Images[0].Url);
+            main_frame.Content = simple_track_page;
         }
     }
 }

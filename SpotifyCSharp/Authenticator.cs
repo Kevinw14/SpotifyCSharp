@@ -13,7 +13,6 @@ namespace SpotifyCSharp
     interface AuthenticatorDelegate
     {
         void AuthenticatorDidFinishAuthenticating(SpotifyClient Client);
-        void AuthenticatorDidFinishLoggingOut();
     }
 
     class Authenticator

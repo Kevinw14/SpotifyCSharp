@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Input;
 
 namespace SpotifyCSharp
 {
@@ -21,7 +8,6 @@ namespace SpotifyCSharp
     /// 
 
     public interface AlbumTableViewCellDelegate {
-        void PlayButtonTapped(IndexPath IndexPath);
         void AlbumCellTapped(IndexPath IndexPath);
     }
 
@@ -45,11 +31,6 @@ namespace SpotifyCSharp
         public AlbumTableViewCell(IndexPath index_path): base(index_path)
         {
             InitializeComponent();
-        }
-
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.delgate.PlayButtonTapped(this.IndexPath);
         }
 
         private void TableViewCell_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

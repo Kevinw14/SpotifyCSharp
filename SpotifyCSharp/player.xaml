@@ -8,15 +8,25 @@
     <Grid x:Name="PlayerViewGrid" Background="White">
         <Image x:Name="AlbumImg" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Height="75" Width="75"/>
         <Label x:Name="LblArtist" Margin="100,23,560,50"/>
-        <Label x:Name="LblSong" Margin="100,50,560,23"/>
+        <TextBlock x:Name="LblSong" TextAlignment="Left" Margin="100,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" HorizontalAlignment="Left" Width="140"/>
         <Image x:Name="PreviousImg" HorizontalAlignment="Left" Height="30" Margin="401,22,0,0" VerticalAlignment="Top" Width="30" Source="/Images/previous.png" MouseLeftButtonDown="PreviousImg_MouseLeftButtonDown"/>
         <Image x:Name="SkipImg" HorizontalAlignment="Left" Height="30" Margin="476,22,0,0" VerticalAlignment="Top" Width="30" Source="/Images/skip.png" MouseLeftButtonDown="SkipImg_MouseLeftButtonDown"/>
         <Image x:Name="PlayPauseImg" Height="30" Width="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="441,22,0,0" MouseLeftButtonDown="PlayPauseImg_MouseLeftButtonDown" Source="/Images/play.png"/>
-        <Label x:Name="LblStartTime" Content="0:00" Margin="263,55,931,18"/>
+        <Label x:Name="LblStartTime" HorizontalAlignment="Left" Content="00:00" Margin="263,55,931,18"/>
+        <Label x:Name="LblEndTime" HorizontalAlignment="Left" Content="00:00" Margin="630,55,0,18">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
         <Image x:Name="ShuffleImg" Height="30" Width="30" Margin="361,22,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Images/shuffle-off.png" MouseLeftButtonDown="ShuffleImg_MouseLeftButtonDown"/>
         <Image x:Name="RepeatImg" Height="30" Width="30" Source="/Images/repeat-off.png" Margin="516,22,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" MouseLeftButtonDown="RepeatImg_MouseLeftButtonDown"/>
         <Image x:Name="VolImg" Height="30" Width="30" Margin="0,0,350,0" HorizontalAlignment="Right" VerticalAlignment="Center" MouseLeftButtonDown="VolImg_MouseLeftButtonDown"/>
         <Slider x:Name="VolumeSlider" HorizontalAlignment="Right" Margin="0,0,150,0" VerticalAlignment="Center" Width="200" Maximum="100" ValueChanged="VolumeSlider_ValueChanged" SmallChange="1" Value="66" TickPlacement="None"/>
-        <Slider x:Name="TimeSlider" HorizontalAlignment="Left" Margin="319,60,0,0" VerticalAlignment="Top" Width="300" Maximum="100" ValueChanged="TimeSlider_ValueChanged" SmallChange="1"/>
+        <Slider x:Name="TimeSlider" Thumb.DragCompleted="TimeSlider_DragCompleted" HorizontalAlignment="Left" Margin="319,60,0,0" VerticalAlignment="Top" Width="300" SmallChange="1"/>
     </Grid>
 </UserControl>

@@ -16,18 +16,17 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox x:Name="SearchGroupBox" Header="Search" Margin="285,0,722,646">
-            <Grid Height="84" Margin="0,0,-9                   ,0">
+        <GroupBox x:Name="SearchGroupBox" Header="Search" Margin="285,0,587,646">
+            <Grid Height="84" Margin="0,0,-12,0">
                 <TextBox x:Name="SearchTextField" VerticalAlignment="Top" Margin="10,10,10,0" TextWrapping="Wrap" IsEnabled="False"/>
                 <RadioButton x:Name="SongRadioButton" Content="Songs" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Width="56" GroupName="SearchType" IsChecked="True" Height="16"/>
                 <Button x:Name="SearchButton" Content="Search" HorizontalAlignment="Stretch" Margin="0,40,0,0" VerticalAlignment="Top" Width="160" Click="SearchButton_Click" IsEnabled="False"/>
-                <RadioButton x:Name="AlbumRadioButton" Content="Albums" HorizontalAlignment="Left" Margin="66,68,0,0" Width="60" VerticalAlignment="Top" GroupName="SearchType" Height="16"/>
+                <RadioButton x:Name="AlbumRadioButton" Content="Albums" HorizontalAlignment="Left" Margin="150,68,0,0" Width="60" VerticalAlignment="Top" GroupName="SearchType" Height="16"/>
+                <RadioButton x:Name="ArtistRadioButton" Content="Artists" HorizontalAlignment="Left" Margin="290,68,0,0" Width="60" VerticalAlignment="Top" GroupName="SearchType" Height="16"/>
 
             </Grid>
         </GroupBox>
         <Frame x:Name="MainFrame" Content="" Margin="0,143,0,105" />
-        <GroupBox x:Name="LibraryGroupBox" Header="My Library" Margin="550,0,457,646"/>
-        <GroupBox x:Name="PlaylistGroupBox" Header="Playlists" Margin="814,0,10,646"/>
         <local:player x:Name="PlayerController" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
     </Grid>
 </Window>

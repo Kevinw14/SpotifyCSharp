@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using WpfAnimatedGif;
 
 namespace SpotifyCSharp
 {
@@ -11,8 +12,7 @@ namespace SpotifyCSharp
 
     public interface SongTableViewCellDelegate
     {
-        void PlayButtonTapped(IndexPath IndexPath, SongTableViewCell SongTableViewCell); 
-        void LikeButtonTapped(IndexPath IndexPath);
+        void PlayButtonTapped(IndexPath IndexPath, SongTableViewCell SongTableViewCell);
     }
     // SongTableViewCell is used to visualize song objects.
     public partial class SongTableViewCell : TableViewCell
@@ -39,20 +39,6 @@ namespace SpotifyCSharp
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             delgate.PlayButtonTapped(this.IndexPath, this);
-        }
-
-        private void LikeButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            delgate.LikeButtonTapped(this.IndexPath);
-        }
-
-        private BitmapImage GetImage(string URL)
-        {
-            BitmapImage Bitmap = new BitmapImage();
-            Bitmap.BeginInit();
-            Bitmap.UriSource = new Uri(URL);
-            Bitmap.EndInit();
-            return Bitmap;
         }
     }
 }
